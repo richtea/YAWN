@@ -18,8 +18,6 @@ jobs:
 
     - name: Setup mono-complete
       run: |
-        cat /etc/os-release
-        
         if command -v mono &> /dev/null; then
           echo "Mono is already installed"
         else
@@ -55,3 +53,4 @@ jobs:
         --no-restore
         --no-build
         --verbosity normal
+        --logger "GitHubActions;annotations.titleFormat=\$test;annotations.messageFormat=\$error"
