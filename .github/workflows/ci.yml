@@ -16,6 +16,21 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Setup mono-complete
+      run: |
+        cat /etc/os-release
+        
+        if command -v mono &> /dev/null; then
+          echo "Mono is already installed"
+        else
+          sudo apt install gnupg ca-certificates
+          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+          echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | \
+            sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+          sudo apt update
+          sudo apt install -y mono-complete
+        fi
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -25,10 +40,18 @@ jobs:
       uses: NuGet/setup-nuget@v1.0.5
 
     - name: Restore dependencies
-      run: nuget restore $SOLUTION
+      run: dotnet restore $SOLUTION
 
     - name: Build
-      run: dotnet build $SOLUTION --configuration $BUILD_CONFIG --no-restore
+      run: >-
+        dotnet build $SOLUTION
+        --configuration $BUILD_CONFIG
+        --no-restore
 
     - name: Run tests
-      run: dotnet test /p:Configuration=$env:BUILD_CONFIG --no-restore --no-build --verbosity normal
+      run: >-
+        dotnet test
+        --configuration $BUILD_CONFIG
+        --no-restore
+        --no-build
+        --verbosity normal
