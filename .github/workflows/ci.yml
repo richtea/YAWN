@@ -16,6 +16,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    # This step shouldn't be necessary on hosted agents. It's only here to support running this workflow
+    # locally with Act https://github.com/nektos/act
     - name: Setup mono-complete
       run: |
         if command -v mono &> /dev/null; then
@@ -35,7 +37,7 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.5
+      uses: NuGet/setup-nuget@v1
 
     - name: Restore dependencies
       run: dotnet restore $SOLUTION
