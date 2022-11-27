@@ -7,6 +7,11 @@
 
         <IsPackable>false</IsPackable>
     </PropertyGroup>
+    
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Product>NuGetWorkflow</Product>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="FluentAssertions" Version="6.8.0" />
@@ -14,7 +19,15 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
+        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="xunit" Version="2.4.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -28,6 +41,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\NuGetWorkflow\NuGetWorkflow.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\StyleCop.json">
+        <Link>StyleCop.json</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

@@ -2,6 +2,7 @@ using FluentAssertions;
 
 namespace NuGetWorkflow.Test;
 
+
 public class SampleClassTests
 {
     [Fact]
