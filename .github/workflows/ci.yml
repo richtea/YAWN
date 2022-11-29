@@ -50,7 +50,7 @@ jobs:
     uses: ./.github/workflows/build-and-test.yml
     with:
       build-version: ${{ needs.init.outputs.build-version }}
-      output-folder: ${{ env.NuGetDirectory }}
+      output-folder: $NuGetDirectory
 
   diag:
     runs-on: ubuntu-latest
