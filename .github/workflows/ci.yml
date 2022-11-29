@@ -6,6 +6,11 @@ on:
     - main
   workflow_dispatch:    # Allow running the workflow manually from the GitHub UI
 
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  NuGetDirectory: ${{ github.workspace}}/nuget
+
 jobs:
   init:
     runs-on: ubuntu-latest
@@ -45,11 +50,18 @@ jobs:
     uses: ./.github/workflows/build-and-test.yml
     with:
       build-version: ${{ needs.init.outputs.build-version }}
+      output-folder: ${{ env.NuGetDirectory }}
 
   diag:
     runs-on: ubuntu-latest
     needs: build
     steps:
-    - run: |
-        echo "Test diagnostics"
-        ls ./publish
+    - name: Download nupkg artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: nupkg
+        path: ${{ env.NuGetDirectory }}
+
+    - name: Diagnostics
+      run: |
+        ls ${{ env.NuGetDirectory }}
