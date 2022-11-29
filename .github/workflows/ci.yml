@@ -2,42 +2,51 @@ name: CI Build
 
 on:
   pull_request:
-    branches: 
+    branches:           # Run the workflow for pull requests that target main branch
     - main
-  workflow_dispatch:
+  workflow_dispatch:    # Allow running the workflow manually from the GitHub UI
 
 jobs:
   build:
     env:
       BUILD_CONFIG: 'Release'
       SOLUTION: 'NuGetWorkflow.sln'
+      OUTPUT_FOLDER: ./publish
 
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-
-    # This step shouldn't be necessary on hosted agents. It's only here to support running this workflow
-    # locally with Act https://github.com/nektos/act
-    - name: Setup mono-complete
-      run: |
-        if command -v mono &> /dev/null; then
-          echo "Mono is already installed"
-        else
-          sudo apt install gnupg ca-certificates
-          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-          echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | \
-            sudo tee /etc/apt/sources.list.d/mono-official-stable.list
-          sudo apt update
-          sudo apt install -y mono-complete
-        fi
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
 
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1
+    - name: Get current version from changelog
+      id: get_current_version
+      uses: release-flow/keep-a-changelog-action/get-release-info@v1
+      with:
+        release-version: latest-or-unreleased
+
+    - name: Parse current version number
+      uses: madhead/semver-utils@latest
+      id: semver_parser
+      with:
+        # A version to work with
+        version: >
+          ${{ steps.get_current_version.outputs.release-version != '[unreleased]'
+            && steps.get_current_version.outputs.release-version
+            || '0.0.0-ci.0'  }}
+
+    - name: Set build version number
+      id: set_build_version
+      run: |
+        build_version='${{ steps.semver_parser.outputs.inc-prerelease }}'
+        if [[ -f $GITHUB_OUTPUT ]]; then
+          echo "build-version=$build_version" >> $GITHUB_OUTPUT
+        else
+          echo "::set-output name=build-version::$build_version"
+        fi
 
     - name: Restore dependencies
       run: dotnet restore $SOLUTION
@@ -46,6 +55,7 @@ jobs:
       run: >-
         dotnet build $SOLUTION
         --configuration $BUILD_CONFIG
+        -p:Version=${{ steps.set_build_version.outputs.build-version }}
         --no-restore
 
     - name: Run tests
@@ -56,3 +66,12 @@ jobs:
         --no-build
         --verbosity normal
         --logger "GitHubActions;annotations.titleFormat=\$test;annotations.messageFormat=\$error"
+
+    - name: Create NuGet package
+      run: >-
+        dotnet pack
+        --configuration $BUILD_CONFIG
+        --no-build
+        --verbosity normal
+        -p:Version=${{ steps.set_build_version.outputs.build-version }}
+        --output ${{ env.OUTPUT_FOLDER }}
