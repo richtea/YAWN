@@ -13,7 +13,7 @@ jobs:
       build-version: ${{ steps.set_build_version.outputs.build-version }}
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Get current version from changelog
       id: get_current_version
       uses: release-flow/keep-a-changelog-action/get-release-info@v1
@@ -45,3 +45,11 @@ jobs:
     uses: ./.github/workflows/build-and-test.yml
     with:
       build-version: ${{ needs.init.outputs.build-version }}
+
+  diag:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - run: |
+        echo "Test diagnostics"
+        ls ./publish
