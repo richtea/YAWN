@@ -11,15 +11,15 @@ on:
       output-folder:
         required: false
         type: string
-        default: './publish'
-
+        default: ${{ github.workspace }}/publish
+  workflow_dispatch:    # Allow running the workflow manually from the GitHub UI
 
 jobs:
   build:
     env:
-      BUILD_CONFIG: ${{ inputs.configuration }}
+      BUILD_CONFIG: ${{ inputs.configuration && inputs.configuration || 'Release'}}
       SOLUTION: 'NuGetWorkflow.sln'
-      OUTPUT_FOLDER: ${{ inputs.output-folder }}
+      NuGetDirectory: ${{ inputs.output-folder && inputs.output-folder || format('{0}/publish', github.workspace) }}
 
     runs-on: ubuntu-latest
     steps:
@@ -82,4 +82,12 @@ jobs:
         --no-build
         --verbosity normal
         -p:Version=${{ steps.set_build_version.outputs.build-version }}
-        --output ${{ env.OUTPUT_FOLDER }}
+        --output ${{ env.NuGetDirectory }}
+
+    - name: Upload nupkg artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: nupkg
+        if-no-files-found: error
+        retention-days: 7
+        path: ${{ env.NuGetDirectory }}/*.nupkg
