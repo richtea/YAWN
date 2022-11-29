@@ -7,21 +7,13 @@ on:
   workflow_dispatch:    # Allow running the workflow manually from the GitHub UI
 
 jobs:
-  build:
-    env:
-      BUILD_CONFIG: 'Release'
-      SOLUTION: 'NuGetWorkflow.sln'
-      OUTPUT_FOLDER: ./publish
-
+  init:
     runs-on: ubuntu-latest
+    outputs:
+      build-version: ${{ steps.set_build_version.outputs.build-version }}
     steps:
     - uses: actions/checkout@v3
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-
+    
     - name: Get current version from changelog
       id: get_current_version
       uses: release-flow/keep-a-changelog-action/get-release-info@v1
@@ -48,30 +40,8 @@ jobs:
           echo "::set-output name=build-version::$build_version"
         fi
 
-    - name: Restore dependencies
-      run: dotnet restore $SOLUTION
-
-    - name: Build
-      run: >-
-        dotnet build $SOLUTION
-        --configuration $BUILD_CONFIG
-        -p:Version=${{ steps.set_build_version.outputs.build-version }}
-        --no-restore
-
-    - name: Run tests
-      run: >-
-        dotnet test
-        --configuration $BUILD_CONFIG
-        --no-restore
-        --no-build
-        --verbosity normal
-        --logger "GitHubActions;annotations.titleFormat=\$test;annotations.messageFormat=\$error"
-
-    - name: Create NuGet package
-      run: >-
-        dotnet pack
-        --configuration $BUILD_CONFIG
-        --no-build
-        --verbosity normal
-        -p:Version=${{ steps.set_build_version.outputs.build-version }}
-        --output ${{ env.OUTPUT_FOLDER }}
+  build:
+    needs: init
+    uses: ./.github/workflows/build-and-test.yml
+    with:
+      build-version: ${{ needs.init.outputs.build-version }}
