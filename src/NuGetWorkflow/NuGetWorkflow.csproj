@@ -8,6 +8,9 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Product>NuGetWorkflow</Product>
         <Description>Dumb library for testing build workflows.</Description>
+        <PackageId>NuGetWorkflow</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Rich Tebb</Authors>
     </PropertyGroup>
 
     <ItemGroup>

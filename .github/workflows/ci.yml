@@ -2,57 +2,66 @@ name: CI Build
 
 on:
   pull_request:
-    branches: 
+    branches:           # Run the workflow for pull requests that target main branch
     - main
-  workflow_dispatch:
+  workflow_dispatch:    # Allow running the workflow manually from the GitHub UI
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+  DOTNET_NOLOGO: true
+  NuGetDirectory: ${{ github.workspace}}/nuget
 
 jobs:
-  build:
-    env:
-      BUILD_CONFIG: 'Release'
-      SOLUTION: 'NuGetWorkflow.sln'
-
+  init:
     runs-on: ubuntu-latest
+    outputs:
+      build-version: ${{ steps.set_build_version.outputs.build-version }}
     steps:
     - uses: actions/checkout@v3
 
-    # This step shouldn't be necessary on hosted agents. It's only here to support running this workflow
-    # locally with Act https://github.com/nektos/act
-    - name: Setup mono-complete
+    - name: Get current version from changelog
+      id: get_current_version
+      uses: release-flow/keep-a-changelog-action/get-release-info@v1
+      with:
+        release-version: latest-or-unreleased
+
+    - name: Parse current version number
+      uses: madhead/semver-utils@latest
+      id: semver_parser
+      with:
+        # A version to work with
+        version: >
+          ${{ steps.get_current_version.outputs.release-version != '[unreleased]'
+            && steps.get_current_version.outputs.release-version
+            || '0.0.0-ci.0'  }}
+
+    - name: Set build version number
+      id: set_build_version
       run: |
-        if command -v mono &> /dev/null; then
-          echo "Mono is already installed"
+        build_version='${{ steps.semver_parser.outputs.inc-prerelease }}'
+        if [[ -f $GITHUB_OUTPUT ]]; then
+          echo "build-version=$build_version" >> $GITHUB_OUTPUT
         else
-          sudo apt install gnupg ca-certificates
-          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-          echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | \
-            sudo tee /etc/apt/sources.list.d/mono-official-stable.list
-          sudo apt update
-          sudo apt install -y mono-complete
+          echo "::set-output name=build-version::$build_version"
         fi
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+  build:
+    needs: init
+    uses: ./.github/workflows/build-and-test.yml
+    with:
+      build-version: ${{ needs.init.outputs.build-version }}
+      output-folder: $NuGetDirectory
+
+  diag:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Download nupkg artifact
+      uses: actions/download-artifact@v3
       with:
-        dotnet-version: 6.0.x
+        name: nupkg
+        path: ${{ env.NuGetDirectory }}
 
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1
-
-    - name: Restore dependencies
-      run: dotnet restore $SOLUTION
-
-    - name: Build
-      run: >-
-        dotnet build $SOLUTION
-        --configuration $BUILD_CONFIG
-        --no-restore
-
-    - name: Run tests
-      run: >-
-        dotnet test
-        --configuration $BUILD_CONFIG
-        --no-restore
-        --no-build
-        --verbosity normal
-        --logger "GitHubActions;annotations.titleFormat=\$test;annotations.messageFormat=\$error"
+    - name: Diagnostics
+      run: |
+        ls ${{ env.NuGetDirectory }}
