@@ -1,33 +1,68 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <Product>NuGetWorkflow</Product>
-        <Description>Dumb library for testing build workflows.</Description>
-        <PackageId>NuGetWorkflow</PackageId>
-        <Version>1.0.0</Version>
-        <Authors>Rich Tebb</Authors>
-    </PropertyGroup>
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Product>NuGetWorkflow</Product>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-    </ItemGroup>
+  <!-- NuGet package properties -->
+  <PropertyGroup>
+    <Description>Dumb library for testing build workflows.</Description>
+    <PackageId>NuGetWorkflow</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Rich Tebb</Authors>
+    <Copyright>Copyright (c) Rich Tebb</Copyright>
+    <PackageTags>sample;nuget</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <Content Include="..\..\StyleCop.json">
-        <Link>StyleCop.json</Link>
-      </Content>
-    </ItemGroup>
+  <!-- 
+    Sets the package's projectUrl to the repository URL, unless specified above.
+  -->
+  <Target Name="_InitializeProjectUrl"
+          BeforeTargets="GenerateNuspec"
+          DependsOnTargets="InitializeSourceControlInformation"
+          Condition="'$(RepositoryUrl)' != '' and '$(PackageProjectUrl)' == '' " >
+    <CreateProperty
+        Value="$([System.Text.RegularExpressions.Regex]::Replace('$(RepositoryUrl)', '\.git$', ''))">
+        <Output PropertyName="PackageProjectUrl" TaskParameter="Value" />
+    </CreateProperty>
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="DotNet.ReproducibleBuilds" Version="0.1.66">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\StyleCop.json">
+      <Link>StyleCop.json</Link>
+    </AdditionalFiles>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+    <None Include="..\..\images\icon.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
 
 </Project>
