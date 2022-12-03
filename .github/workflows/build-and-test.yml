@@ -14,15 +14,15 @@ on:
         default: ${{ github.workspace }}/publish
   workflow_dispatch:    # Allow running the workflow manually from the GitHub UI
 
+env:
+  BUILD_VERSION: ${{ inputs.build-version && inputs.build-version || '0.0.0-ci.0' }}
+  BUILD_CONFIG: ${{ inputs.configuration && inputs.configuration || 'Release'}}
+  SOLUTION: 'NuGetWorkflow.sln'
+  NuGetDirectory: ${{ inputs.output-folder && inputs.output-folder || format('{0}/publish', github.workspace) }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      BUILD_VERSION: ${{ inputs.build-version && inputs.build-version || '0.0.0-ci.0' }}
-      BUILD_CONFIG: ${{ inputs.configuration && inputs.configuration || 'Release'}}
-      SOLUTION: 'NuGetWorkflow.sln'
-      NuGetDirectory: ${{ inputs.output-folder && inputs.output-folder || format('{0}/publish', github.workspace) }}
-
     steps:
     - uses: actions/checkout@v3
 
@@ -78,4 +78,4 @@ jobs:
         name: nupkg
         if-no-files-found: error
         retention-days: 7
-        path: ${NuGetDirectory}/*.nupkg
+        path: ${{ env.NuGetDirectory }}/*.nupkg
