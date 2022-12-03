@@ -14,13 +14,14 @@ on:
         default: ${{ github.workspace }}/publish
   workflow_dispatch:    # Allow running the workflow manually from the GitHub UI
 
+env:
+  BUILD_VERSION: ${{ inputs.build-version && inputs.build-version || '0.0.0-ci.0' }}
+  BUILD_CONFIG: ${{ inputs.configuration && inputs.configuration || 'Release'}}
+  SOLUTION: 'NuGetWorkflow.sln'
+  NuGetDirectory: ${{ inputs.output-folder && inputs.output-folder || format('{0}/publish', github.workspace) }}
+
 jobs:
   build:
-    env:
-      BUILD_CONFIG: ${{ inputs.configuration && inputs.configuration || 'Release'}}
-      SOLUTION: 'NuGetWorkflow.sln'
-      NuGetDirectory: ${{ inputs.output-folder && inputs.output-folder || format('{0}/publish', github.workspace) }}
-
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -30,40 +31,19 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    - name: Get current version from changelog
-      id: get_current_version
-      uses: release-flow/keep-a-changelog-action/get-release-info@v1
-      with:
-        release-version: latest-or-unreleased
-
-    - name: Parse current version number
-      uses: madhead/semver-utils@latest
-      id: semver_parser
-      with:
-        # A version to work with
-        version: >
-          ${{ steps.get_current_version.outputs.release-version != '[unreleased]'
-            && steps.get_current_version.outputs.release-version
-            || '0.0.0-ci.0'  }}
-
-    - name: Set build version number
-      id: set_build_version
-      run: |
-        build_version='${{ steps.semver_parser.outputs.inc-prerelease }}'
-        if [[ -f $GITHUB_OUTPUT ]]; then
-          echo "build-version=$build_version" >> $GITHUB_OUTPUT
-        else
-          echo "::set-output name=build-version::$build_version"
-        fi
-
     - name: Restore dependencies
-      run: dotnet restore $SOLUTION
+      run: |
+        dotnet restore $SOLUTION
+        dotnet tool restore
+
+    - name: Clean output directory
+      run: rm -rf ${NuGetDirectory}/*
 
     - name: Build
       run: >-
         dotnet build $SOLUTION
         --configuration $BUILD_CONFIG
-        -p:Version=${{ steps.set_build_version.outputs.build-version }}
+        -p:Version=$BUILD_VERSION
         --no-restore
 
     - name: Run tests
@@ -81,8 +61,16 @@ jobs:
         --configuration $BUILD_CONFIG
         --no-build
         --verbosity normal
-        -p:Version=${{ steps.set_build_version.outputs.build-version }}
-        --output ${{ env.NuGetDirectory }}
+        -p:Version=$BUILD_VERSION
+        --output ${NuGetDirectory}
+
+    # Validate metadata and content of the NuGet package
+    # https://www.nuget.org/packages/Meziantou.Framework.NuGetPackageValidation.Tool#readme-body-tab
+    # If some rules are not applicable, you can disable them
+    # using the --excluded-rules or --excluded-rule-ids option
+    - name: Validate package
+      run: >-
+        ls ${NuGetDirectory}/*.nupkg | xargs dotnet tool run meziantou.validate-nuget-package
 
     - name: Upload nupkg artifact
       uses: actions/upload-artifact@v3

@@ -10,3 +10,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Initial implementation
+
+- Support [Meziantou best practices](https://www.meziantou.net/ensuring-best-practices-for-nuget-packages.htm)
