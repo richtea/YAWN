@@ -44,7 +44,7 @@ jobs:
 
     - name: Clean output directory
       run: |
-        [[ -z "${{ env.PACKAGE_PATH }}" ]] && echo "PACKAGE_PATH not set" || rm -rf ${{ env.PACKAGE_PATH }}/*
+        [ -n ${{ env.PACKAGE_PATH }} ] && ls ${{ env.PACKAGE_PATH }}/* || echo "PACKAGE_PATH not set"
 
     - name: Build
       run: >-
