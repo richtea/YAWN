@@ -40,14 +40,8 @@ jobs:
 
     - name: Clean output directory
       run: |
-        # Defensive coding so we don't rm -rf /* if PACKAGE_PATH is unset
-        # Ask me how I know!
-        if [ -n ${{ env.PACKAGE_PATH }} ]; then
-          echo "Cleaning ${{ env.PACKAGE_PATH }}/*"
-          ls '${{ env.PACKAGE_PATH }}' || true
-        else
-          echo "PACKAGE_PATH not set"
-        fi
+        echo "Cleaning ${{ env.PACKAGE_PATH }}"
+        [ -d ${{ env.PACKAGE_PATH }} ] && rm -rf ${{ env.PACKAGE_PATH }}
 
     - name: Build
       run: >-
