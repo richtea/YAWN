@@ -48,7 +48,7 @@ jobs:
         # Ask me how I know!
         if [ -n ${{ env.PACKAGE_PATH }} ]; then
           echo "Cleaning ${{ env.PACKAGE_PATH }}/*"
-          ls '${{ env.PACKAGE_PATH }}'
+          ls '${{ env.PACKAGE_PATH }}' || true
         else
           echo "PACKAGE_PATH not set"
         fi
