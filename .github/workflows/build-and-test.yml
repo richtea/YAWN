@@ -37,7 +37,9 @@ jobs:
         dotnet tool restore
 
     - name: Clean output directory
-      run: rm -rf ${NuGetDirectory}/*
+      run: |
+        echo $NuGetDirectory/*
+        rm -rf $NuGetDirectory/*
 
     - name: Build
       run: >-
@@ -62,7 +64,7 @@ jobs:
         --no-build
         --verbosity normal
         -p:Version=$BUILD_VERSION
-        --output ${NuGetDirectory}
+        --output $NuGetDirectory
 
     # Validate metadata and content of the NuGet package
     # https://www.nuget.org/packages/Meziantou.Framework.NuGetPackageValidation.Tool#readme-body-tab
@@ -70,7 +72,7 @@ jobs:
     # using the --excluded-rules or --excluded-rule-ids option
     - name: Validate package
       run: >-
-        ls ${NuGetDirectory}/*.nupkg | xargs dotnet tool run meziantou.validate-nuget-package
+        ls $NuGetDirectory/*.nupkg | xargs dotnet tool run meziantou.validate-nuget-package
 
     - name: Upload nupkg artifact
       uses: actions/upload-artifact@v3
@@ -78,4 +80,4 @@ jobs:
         name: nupkg
         if-no-files-found: error
         retention-days: 7
-        path: ${{ env.NuGetDirectory }}/*.nupkg
+        path: $NuGetDirectory/*.nupkg
