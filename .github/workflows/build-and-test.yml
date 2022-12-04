@@ -36,10 +36,15 @@ jobs:
         dotnet restore $SOLUTION
         dotnet tool restore
 
+    - name: Diagnostics
+      run: |
+        echo 'PACKAGE_PATH=${{ env.PACKAGE_PATH }}/'
+        echo 'PACKAGE_PATH=${PACKAGE_PATH}/'
+        echo 'PACKAGE_PATH=$PACKAGE_PATH/'
+
     - name: Clean output directory
       run: |
-        echo 'Cleaning ${{ env.PACKAGE_PATH }}/'
-        rm -rf ${{ env.PACKAGE_PATH }}/*
+        [[ -z "${{ env.PACKAGE_PATH }}" ]] && echo "PACKAGE_PATH not set" || rm -rf ${{ env.PACKAGE_PATH }}/*
 
     - name: Build
       run: >-
