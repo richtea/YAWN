@@ -9,7 +9,6 @@ on:
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
-  NuGetDirectory: ${{ github.workspace}}/nuget
 
 jobs:
   init:
@@ -29,7 +28,7 @@ jobs:
       uses: madhead/semver-utils@latest
       id: semver_parser
       with:
-        # A version to work with
+        # Parse the latest release version, or a default value if nothing is released
         version: >
           ${{ steps.get_current_version.outputs.release-version != '[unreleased]'
             && steps.get_current_version.outputs.release-version
@@ -50,18 +49,19 @@ jobs:
     uses: ./.github/workflows/build-and-test.yml
     with:
       build-version: ${{ needs.init.outputs.build-version }}
-      output-folder: $NuGetDirectory
 
   diag:
     runs-on: ubuntu-latest
     needs: build
+    env:
+      PACKAGE_PATH: ${{ github.workspace }}/nuget
     steps:
     - name: Download nupkg artifact
       uses: actions/download-artifact@v3
       with:
         name: nupkg
-        path: ${{ env.NuGetDirectory }}
+        path: ${{ env.PACKAGE_PATH }}
 
     - name: Diagnostics
       run: |
-        ls ${{ env.NuGetDirectory }}
+        ls ${{ env.PACKAGE_PATH }}
