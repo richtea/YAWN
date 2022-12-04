@@ -18,7 +18,7 @@ env:
   BUILD_VERSION: ${{ inputs.build-version && inputs.build-version || '0.0.0-ci.0' }}
   BUILD_CONFIG: ${{ inputs.configuration && inputs.configuration || 'Release'}}
   SOLUTION: 'NuGetWorkflow.sln'
-  NuGetDirectory: ${{ inputs.output-folder && inputs.output-folder || format('{0}/publish', github.workspace) }}
+  PACKAGE_PATH: ${{ inputs.output-folder && inputs.output-folder || format('{0}/publish', github.workspace) }}
 
 jobs:
   build:
@@ -38,8 +38,8 @@ jobs:
 
     - name: Clean output directory
       run: |
-        echo $NuGetDirectory/*
-        rm -rf $NuGetDirectory/*
+        echo 'Cleaning ${{ env.PACKAGE_PATH }}/'
+        rm -rf ${{ env.PACKAGE_PATH }}/*
 
     - name: Build
       run: >-
@@ -64,7 +64,7 @@ jobs:
         --no-build
         --verbosity normal
         -p:Version=$BUILD_VERSION
-        --output $NuGetDirectory
+        --output ${{ env.PACKAGE_PATH }}
 
     # Validate metadata and content of the NuGet package
     # https://www.nuget.org/packages/Meziantou.Framework.NuGetPackageValidation.Tool#readme-body-tab
@@ -72,7 +72,7 @@ jobs:
     # using the --excluded-rules or --excluded-rule-ids option
     - name: Validate package
       run: >-
-        ls $NuGetDirectory/*.nupkg | xargs dotnet tool run meziantou.validate-nuget-package
+        ls ${{ env.PACKAGE_PATH }}/*.nupkg | xargs dotnet tool run meziantou.validate-nuget-package
 
     - name: Upload nupkg artifact
       uses: actions/upload-artifact@v3
@@ -80,4 +80,4 @@ jobs:
         name: nupkg
         if-no-files-found: error
         retention-days: 7
-        path: '${{ env.NuGetDirectory }}/*.nupkg'
+        path: '${{ env.PACKAGE_PATH }}/*.nupkg'
