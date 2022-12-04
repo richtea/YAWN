@@ -50,7 +50,7 @@ jobs:
     uses: ./.github/workflows/build-and-test.yml
     with:
       build-version: ${{ needs.init.outputs.build-version }}
-      output-folder: ${{ env.PACKAGE_PATH }}
+      output-folder: ${PACKAGE_PATH}
 
   diag:
     runs-on: ubuntu-latest
