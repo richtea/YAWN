@@ -19,6 +19,6 @@ jobs:
       - uses: EndBug/label-sync@v2
         with:
           config-file: .github/labels.yml
-          delete-other-labels: false
+          delete-other-labels: true
           dry-run: true
           token: ${{ secrets.GITHUB_TOKEN }}
