@@ -64,7 +64,7 @@
   aliases: ['invalid']
 
 - name: 'type: not a bug'
-  color: 0e8a16
+  color: e4e669
   description: 'Reports that happen not be our fault'
   aliases: ['not a bug']
 
