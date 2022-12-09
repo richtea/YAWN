@@ -1,9 +1,8 @@
+name: '[autorelease] On release published'
+
 on:
   release:
     types: [published]
-
-
-name: '[autorelease] Release published'
 
 jobs:
   update-ref:

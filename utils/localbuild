@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Command to run act (https://github.com/nektos/act) - edit as required
+# to test the workflow you are working on
+
+csd=$(dirname ${BASH_SOURCE})
+
+act workflow_dispatch \
+  --workflows ./.github/workflows/pr-merged.yml \
+  -e "$csd/evt-pr-merged.json" \
+  --secret-file "$csd/act.secrets" \
+  --reuse #\
+  #--verbose

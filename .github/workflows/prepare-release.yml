@@ -29,6 +29,14 @@ jobs:
       with:
         ref: ${{ github.head_ref }}
 
+    # We need to create a token so that the check workflows can be triggered (if a PR is created by using the default
+    # GITHUB_TOKEN then it won't trigger any other workflows, for security reasons).
+    - uses: tibdex/github-app-token@v1
+      id: generate-token
+      with:
+        app_id: ${{ secrets.RELEASEBOT_APP_ID }}
+        private_key: ${{ secrets.RELEASEBOT_PRIVATE_KEY }}
+
     - name: 'Ensure autorelease label exists'
       run: |
         LABEL=$(gh api repos/$GITHUB_REPOSITORY/labels --jq '.[] | select(.name=="autorelease")')
@@ -68,6 +76,7 @@ jobs:
 
           ${{ steps.update-changelog.outputs.release-notes }}
         labels: autorelease
+        token: ${{ steps.generate-token.outputs.token }}
 
     - name: Output summary
       run: |
