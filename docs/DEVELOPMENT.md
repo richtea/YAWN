@@ -33,3 +33,15 @@ When you merge the PR back onto `main`, this triggers the release process. A wor
 the NuGet package as a release asset. The release is created in draft mode.
 
 When you publish the release through the GitHub UI, the NuGet package is automatically pushed to the NuGet feed.
+
+#### Release type notes
+
+How to choose a release type? The documentation for the semver `inc` function isn't extensive. Here are some notes, I
+will write a full description later.
+
+##### Examples
+
+| Latest release | Release type        | Result             |
+| -------------- | --------------------| ------------------ |
+| 0.1.0-alpha.0  | prerelease (alpha)  | 0.1.0-alpha.1      |
+| 0.1.0-alpha.2  | minor               | 0.1.0              |
