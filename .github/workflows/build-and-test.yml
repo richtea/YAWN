@@ -1,3 +1,5 @@
+name: Build and test
+
 on:
   workflow_call:
     inputs:
@@ -89,7 +91,7 @@ jobs:
 
     - name: Output variables
       id: output_variables
-      run: >-
+      run: |
         nupkg_name='${{ env.NUPKG_NAME }}'
         if [[ -f $GITHUB_OUTPUT ]]; then
           echo "nupkg-artifact=$nupkg_name" >> $GITHUB_OUTPUT
