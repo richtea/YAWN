@@ -24,6 +24,7 @@ jobs:
   changelog:
     name: Update changelog and create PR
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
       with:
@@ -54,6 +55,7 @@ jobs:
       uses: release-flow/keep-a-changelog-action/prepare-release@v1
       with:
         release-type: ${{ github.event.inputs.release-type }}
+        prerelease-identifier: ${{ github.event.inputs.prerelease-identifier }}
 
     - name: Create Pull Request
       id: create-release-pr
