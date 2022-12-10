@@ -12,8 +12,8 @@
 
   <!-- NuGet package properties -->
   <PropertyGroup>
-    <Description>Dumb library for testing build workflows.</Description>
-    <PackageId>NuGetWorkflow</PackageId>
+    <Description>Dumb library for testing a GitHub build / publish workflow.</Description>
+    <PackageId>NuGetWorkflowForGitHub.Example</PackageId>
     <Version>1.0.0</Version>
     <Authors>Rich Tebb</Authors>
     <Copyright>Copyright (c) Rich Tebb</Copyright>
