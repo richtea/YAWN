@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  update-ref:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
