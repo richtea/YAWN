@@ -1,14 +1,10 @@
-name: CI Build
+name: CI build
 
 on:
   pull_request:
     branches:           # Run the workflow for pull requests that target main branch
     - main
   workflow_dispatch:    # Allow running the workflow manually from the GitHub UI
-
-env:
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-  DOTNET_NOLOGO: true
 
 jobs:
   init:
@@ -54,14 +50,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     env:
-      PACKAGE_PATH: ${{ github.workspace }}/nuget
+      ARTIFACT_PATH: ${{ github.workspace }}/nupkg
     steps:
     - name: Download nupkg artifact
       uses: actions/download-artifact@v3
       with:
-        name: nupkg
-        path: ${{ env.PACKAGE_PATH }}
+        name: ${{ needs.build.outputs.nupkg-artifact }}
+        path: ${{ env.ARTIFACT_PATH }}
 
     - name: Diagnostics
       run: |
-        ls ${{ env.PACKAGE_PATH }}
+        ls ${{ env.ARTIFACT_PATH }}

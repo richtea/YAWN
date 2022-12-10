@@ -12,3 +12,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Initial implementation
 
 - Support [Meziantou best practices](https://www.meziantou.net/ensuring-best-practices-for-nuget-packages.htm)
+
+- Automated publish of GitHub release and NuGet package
