@@ -45,19 +45,3 @@ jobs:
     uses: ./.github/workflows/build-and-test.yml
     with:
       build-version: ${{ needs.init.outputs.build-version }}
-
-  diag:
-    runs-on: ubuntu-latest
-    needs: build
-    env:
-      ARTIFACT_PATH: ${{ github.workspace }}/nupkg
-    steps:
-    - name: Download nupkg artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: ${{ needs.build.outputs.nupkg-artifact }}
-        path: ${{ env.ARTIFACT_PATH }}
-
-    - name: Diagnostics
-      run: |
-        ls ${{ env.ARTIFACT_PATH }}

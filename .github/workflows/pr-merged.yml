@@ -75,7 +75,7 @@ jobs:
       id: create_release
       uses: softprops/action-gh-release@v1
       with:
-        name: 'Release ${{ needs.init.outputs.build-version }}'
+        name: '${{ needs.init.outputs.build-version }}'
         tag_name: 'v${{ needs.init.outputs.build-version }}'
         body: ${{ needs.init.outputs.release-notes }}
         files: '${{ env.ARTIFACT_PATH }}/*'
