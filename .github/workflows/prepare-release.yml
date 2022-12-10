@@ -15,7 +15,7 @@ on:
         - prerelease
         default: patch
       prerelease-identifier:
-        description: 'Pre-release identifier (only for pre-release builds)'
+        description: 'Pre-release identifier (required for pre-release builds)'
         required: false
 
 name: '[autorelease] Prepare release PR'
