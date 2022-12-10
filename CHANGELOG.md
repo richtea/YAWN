@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [0.1.0] - 2022-12-10
 
 ### Added
 
@@ -36,6 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Support [Meziantou best practices](https://www.meziantou.net/ensuring-best-practices-for-nuget-packages.htm)
 
 - Automated publish of GitHub release and NuGet package
+
+[0.1.0]: https://github.com/richtea/NuGetWorkflow/compare/v0.1.0-alpha.2...v0.1.0
 
 [0.1.0-alpha.2]: https://github.com/richtea/NuGetWorkflow/compare/v0.1.0-alpha.1...v0.1.0-alpha.2
 
