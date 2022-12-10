@@ -6,8 +6,8 @@
 csd=$(dirname ${BASH_SOURCE})
 
 act workflow_dispatch \
-  --workflows ./.github/workflows/pr-merged.yml \
-  -e "$csd/evt-pr-merged.json" \
+  --workflows ./.github/workflows/prepare-release.yml \
+  -e "$csd/evt-prepare-release.json" \
   --secret-file "$csd/act.secrets" \
   --reuse #\
   #--verbose
