@@ -18,10 +18,10 @@ The main interesting features of this repo are:
   default.
 
 - If you have set up [act](https://github.com/nektos/act) to run GitHub workflows locally, there is a supporting
-  [script](./scripts/localbuild) to help you (though not all workflows can run locally, because act doesn't support
-  [re-usable workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows) currently).
+  [script](./scripts/localbuild) to help you. Be aware that not all workflows can run locally, because act doesn't
+  support [re-usable workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows) currently).
 
-- Repository labels are managed declaratively by editing [a file](./.github/labels.yml).
+- Repository labels are managed declaratively by editing the [config file](./.github/labels.yml).
 
 ## License
 
