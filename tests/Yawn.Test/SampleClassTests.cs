@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-namespace NuGetWorkflow.Test;
+namespace Yawn.Test;
 
 
 public class SampleClassTests

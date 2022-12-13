@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yawn", "src\Yawn\Yawn.csproj", "{10ECFF86-25F7-40CE-9587-6DF057A5D075}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yawn.Test", "tests\Yawn.Test\Yawn.Test.csproj", "{C277AC5F-2D87-4AA2-95A7-07D92F737A3F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10ECFF86-25F7-40CE-9587-6DF057A5D075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10ECFF86-25F7-40CE-9587-6DF057A5D075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10ECFF86-25F7-40CE-9587-6DF057A5D075}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10ECFF86-25F7-40CE-9587-6DF057A5D075}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C277AC5F-2D87-4AA2-95A7-07D92F737A3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C277AC5F-2D87-4AA2-95A7-07D92F737A3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C277AC5F-2D87-4AA2-95A7-07D92F737A3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C277AC5F-2D87-4AA2-95A7-07D92F737A3F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

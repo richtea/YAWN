@@ -1,4 +1,4 @@
-﻿namespace NuGetWorkflow
+﻿namespace Yawn
 {
     public class SampleClass
     {

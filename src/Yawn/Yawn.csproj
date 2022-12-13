@@ -6,14 +6,14 @@
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Product>NuGetWorkflow</Product>
+    <Product>Yawn</Product>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <!-- NuGet package properties -->
   <PropertyGroup>
-    <Description>Dumb library for testing a GitHub build / publish workflow.</Description>
-    <PackageId>NuGetWorkflowForGitHub.Example</PackageId>
+    <Description>Yet Another Workflow for NuGet</Description>
+    <PackageId>Yawn.Example</PackageId>
     <Version>1.0.0</Version>
     <Authors>Rich Tebb</Authors>
     <Copyright>Copyright (c) Rich Tebb</Copyright>
@@ -27,12 +27,8 @@
   <!-- 
     Sets the package's projectUrl to the repository URL, unless specified above.
   -->
-  <Target Name="_InitializeProjectUrl"
-          BeforeTargets="GenerateNuspec"
-          DependsOnTargets="InitializeSourceControlInformation"
-          Condition="'$(RepositoryUrl)' != '' and '$(PackageProjectUrl)' == '' " >
-    <CreateProperty
-        Value="$([System.Text.RegularExpressions.Regex]::Replace('$(RepositoryUrl)', '\.git$', ''))">
+  <Target Name="_InitializeProjectUrl" BeforeTargets="GenerateNuspec" DependsOnTargets="InitializeSourceControlInformation" Condition="'$(RepositoryUrl)' != '' and '$(PackageProjectUrl)' == '' ">
+    <CreateProperty Value="$([System.Text.RegularExpressions.Regex]::Replace('$(RepositoryUrl)', '\.git$', ''))">
         <Output PropertyName="PackageProjectUrl" TaskParameter="Value" />
     </CreateProperty>
   </Target>
@@ -62,7 +58,7 @@
     </AdditionalFiles>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
     <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
-    <None Include="..\..\images\icon.png" Pack="true" PackagePath=""/>
+    <None Include="..\..\images\icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

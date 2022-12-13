@@ -19,7 +19,7 @@ on:
 env:
   BUILD_VERSION: ${{ inputs.build-version && inputs.build-version || '0.0.0-ci.0' }}
   BUILD_CONFIG: ${{ inputs.configuration && inputs.configuration || 'Release'}}
-  SOLUTION: 'NuGetWorkflow.sln'
+  SOLUTION: 'YAWN.sln'
   PACKAGE_PATH: ${{ github.workspace }}/publish
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
