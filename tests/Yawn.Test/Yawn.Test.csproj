@@ -40,13 +40,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\NuGetWorkflow\NuGetWorkflow.csproj" />
+        <AdditionalFiles Include="..\..\StyleCop.json">
+            <Link>StyleCop.json</Link>
+        </AdditionalFiles>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\StyleCop.json">
-        <Link>StyleCop.json</Link>
-      </Content>
+      <ProjectReference Include="..\..\src\Yawn\Yawn.csproj" />
     </ItemGroup>
 
 </Project>

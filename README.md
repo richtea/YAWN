@@ -1,7 +1,7 @@
-# NuGetWorkflow
+# Yet Another Workflow for Nuget
 
-![CI build status](https://github.com/richtea/NuGetWorkflow/actions/workflows/ci.yml/badge.svg)
-![GitHub latest release](https://img.shields.io/github/v/release/richtea/NuGetWorkflow?include_prereleases&sort=semver)
+![CI build status](https://github.com/richtea/YAWN/actions/workflows/ci.yml/badge.svg)
+![GitHub latest release](https://img.shields.io/github/v/release/richtea/YAWN?include_prereleases&sort=semver)
 
 Contains a sample NuGet package, with a set of GitHub workflows for managing the development / release lifecycle.
 
