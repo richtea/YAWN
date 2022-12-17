@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- Updated NuGet package to use license expression instead of embedding the license file
+
 ## [1.0.0-beta.0] - 2022-12-13
 
 ### Changed
