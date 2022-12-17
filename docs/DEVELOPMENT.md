@@ -16,7 +16,7 @@ For each change:
   to provide a hint as to the motivation for the change. If there's a related issue, it's handy to start the descriptive
   name with the issue number e.g. `feature/123-awesome-change`.
 
-- Make your changes. Don't forget to update the `Unreleased` section of the changelog with a description of your
+- Make your changes. Don't forget to update the `[Unreleased]` section of the changelog with a description of your
   changes!
 
 - When your branch is ready to merge, create a [pull request](./pulls) that targets the `main` branch. This triggers
@@ -29,9 +29,8 @@ workflow. The parameters are:
 
 - __Use workflow from:__ `main`
 
-- __Release type:__ Select the appropriate value that defines how the release number will be incremented. See the
-  documentation for the [semver library](https://www.npmjs.com/package/semver#user-content-functions)'s `inc` function
-  for more details.
+- __Release type:__ Select the appropriate value that defines how the release number will be incremented. See below for
+  further details.
 
 - __Pre-release identifier:__ The pre-release prefix, e.g. `alpha`, `beta` etc.
 
@@ -40,8 +39,9 @@ to contain the incremented version number.
 
 #### Release type notes
 
-How to choose a release type? The documentation for the semver `inc` function isn't extensive. Here are some examples, I
-will write a full description later.
+How to choose a release type? The documentation for the [semver
+library](https://www.npmjs.com/package/semver#user-content-functions)'s `inc` function isn't extensive. Here are some
+examples, I will write a full description later.
 
 ##### Examples
 
