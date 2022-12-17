@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## Changed
+### Changed
 
 - Updated NuGet package to use license expression instead of embedding the license file
 
