@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.0.0-beta.1] - 2022-12-17
 
 ### Changed
 
@@ -48,6 +48,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Support [Meziantou best practices](https://www.meziantou.net/ensuring-best-practices-for-nuget-packages.htm)
 
 - Automated publish of GitHub release and NuGet package
+
+[1.0.0-beta.1]: https://github.com/richtea/YAWN/compare/v1.0.0-beta.0...v1.0.0-beta.1
 
 [1.0.0-beta.0]: https://github.com/richtea/YAWN/compare/v0.1.0...v1.0.0-beta.0
 
