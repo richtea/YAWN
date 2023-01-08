@@ -13,7 +13,7 @@ jobs:
     # Check this event is a merge of an autorelease PR
     if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'autorelease')
     outputs:
-      build-version: ${{ steps.get-release-info.outputs.release-version }}
+      build-version: ${{ steps.get-release-info.outputs.version }}
       is-prerelease: '${{ steps.semver_parser.outputs.prerelease && true || false }}'
       release-notes: '${{ steps.get-release-info.outputs.release-notes }}'
     steps:
@@ -21,9 +21,10 @@ jobs:
 
     - name: Get latest release info
       id: get-release-info
-      uses: release-flow/keep-a-changelog-action/get-release-info@v1
+      uses: release-flow/keep-a-changelog-action/@v2.0.0-alpha.0
       with:
-        release-version: latest
+        command: query
+        version: latest
 
     - name: Display release notes
       run: |
@@ -35,7 +36,7 @@ jobs:
       with:
         # The PR we are merging should have updated the changelog to set the target release version as the
         # latest version (this happens in prepare-release.yml)
-        version: ${{ steps.get-release-info.outputs.release-version }}
+        version: ${{ steps.get-release-info.outputs.version }}
 
   build:
     if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'autorelease')
