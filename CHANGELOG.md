@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- Update to latest version of the `keep-a-changelog-action`
+
 ## [1.0.0-beta.1] - 2022-12-17
 
 ### Changed
