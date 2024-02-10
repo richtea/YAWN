@@ -1,3 +1,28 @@
+# Code style rules for enforcing the Richtea house style
+# See: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
+#
+# To learn more about .editorconfig see https://aka.ms/editorconfigdocs
+#
+# Note: this file was added to your solution as a result of one or more projects using the 
+# Richtea.RecommendedPractices NuGet package.
+#
+# The automatic copying of these files can be configured with the RtEditorConfigUpgrade
+# MSBuild property. Allowable values are:
+#
+#   silent  - Silently upgrade this file to keep it aligned with the
+#             NuGet package's version.
+#   never   - Never modify this file, and don't issue any warnings about
+#             any discrepancies (use this if you are managing it yourself).
+#   warn    - Do not modify any existing .editorconfig file, but create one if it doesn't
+#             exist. If one exists and is different from the package version, issue a
+#             build warning. NOTE: this is the default value if the property is not
+#             specified.
+#
+# Example:
+#       <PropertyGroup>
+#         <RtEditorConfigUpgrade>always</RtEditorConfigUpgrade>
+#       </PropertyGroup>
+
 # top-most EditorConfig file
 root = true
 
@@ -10,7 +35,7 @@ indent_style = space
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
 insert_final_newline = true
-charset = utf-8
+charset = utf-8-bom
 
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
@@ -155,6 +180,7 @@ dotnet_diagnostic.RS2008.severity = none
 
 # IDE0073: File header - reporting handled by StyleCop
 dotnet_diagnostic.IDE0073.severity = none
+file_header_template = Copyright (c) Rich Tebb
 
 # IDE0035: Remove unreachable code
 dotnet_diagnostic.IDE0035.severity = warning
@@ -231,7 +257,7 @@ csharp_space_after_dot = false
 csharp_space_after_keywords_in_control_flow_statements = true
 csharp_space_after_semicolon_in_for_statement = true
 csharp_space_around_binary_operators = before_and_after
-csharp_space_around_declaration_statements = false
+csharp_space_around_declaration_statements = do_not_ignore
 csharp_space_before_colon_in_inheritance_clause = true
 csharp_space_before_comma = false
 csharp_space_before_dot = false
@@ -255,27 +281,10 @@ csharp_preserve_single_line_statements = true
 # warning RS0037: PublicAPI.txt is missing '#nullable enable'
 dotnet_diagnostic.RS0037.severity = none
 
-dotnet_diagnostic.SA1101.severity = none    # Prefix local calls with this
-dotnet_diagnostic.SA1309.severity = none    # Field should not begin with an underscore
-dotnet_diagnostic.SA1633.severity = none    # The file header is missing or not located at the top of the file.
-
-# CS1591 Missing XML comment for publicly visible type or member - handled by StyleCop SA1600
-dotnet_diagnostic.CS1591.severity = none
-
 # Disable Stylecop warning about filename / class name in Razor pages
 # See https://github.com/DotNetAnalyzers/StyleCopAnalyzers/issues/2590
 [*.cshtml.cs]
 dotnet_diagnostic.SA1649.severity = none
-
-#################################
-# Code Analysis Rules - Tests   #
-#################################
-[tests/**/*.cs]
-dotnet_diagnostic.CS1591.severity = none    # Missing XML comment for publicly visible type or member
-
-###### StyleCop ######
-dotnet_diagnostic.SA1300.severity = none    # Element should begin with an uppercase letter
-dotnet_diagnostic.SA1600.severity = none    # Elements should be documented
 
 # Special rules for test fixture classes (these are in the /tests folder and
 # suffixed with Tests or Fixture)
@@ -290,9 +299,3 @@ dotnet_naming_symbols.test_methods.applicable_accessibilities = public
 
 dotnet_naming_style.test_method_style.capitalization = all_lower
 dotnet_naming_style.test_method_style.word_separator = _
-
-#################################
-# Code Analysis Rules - Samples #
-#################################
-[samples/**/*.cs]
-dotnet_diagnostic.SA1600.severity = none    # Elements should be documented

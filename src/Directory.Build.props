@@ -1,0 +1,7 @@
+<Project>
+    <PropertyGroup>
+        <RtCodeAnalysisLevel Condition="'$(MbsCodeAnalysisLevel)' == ''">Strict</RtCodeAnalysisLevel>
+        <RtDisableDefaultPackageIconInclusion Condition="'$(MbsDisableDefaultPackageIconInclusion)' == ''">true</RtDisableDefaultPackageIconInclusion>
+    </PropertyGroup>
+    <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+</Project>

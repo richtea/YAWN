@@ -1,7 +1,28 @@
 {
+  "$documentation": [
+    "Note: this file was added to your solution as a result of one or more projects using the ",
+    "Richtea.RecommendedPractices.CSharp NuGet package.",
+    "The automatic copying of these files can be configured with the RtStyleCopUpgrade",
+    "MSBuild property. Allowable values are:",
+    "  silent  - Silently upgrade this file to keep it aligned with the",
+    "            NuGet package's version.",
+    "  never   - Never modify this file, and don't issue any warnings about",
+    "            any discrepancies (use this if you are managing it yourself).",
+    "  warn    - Do not modify any existing StyleCop.json file, but create one if it doesn't",
+    "            exist. If one exists and is different from the package version, issue a",
+    "            build warning. NOTE: this is the default value if the property is not",
+    "            specified.",
+    "Example:",
+    "      <PropertyGroup>",
+    "        <RtStyleCopUpgrade>always</RtStyleCopUpgrade>",
+    "      </PropertyGroup>"
+  ],
   "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
   "settings": {
     "documentationRules": {
+      "copyrightText": "Copyright (c) 2024 Rich Tebb.",
+      "companyName": "Rich Tebb",
+      "xmlHeader": false,
       "documentExposedElements": true,
       "documentInternalElements": false
     },

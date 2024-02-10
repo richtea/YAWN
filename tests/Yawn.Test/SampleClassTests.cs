@@ -1,3 +1,5 @@
+// Copyright (c) 2024 Rich Tebb.
+
 using FluentAssertions;
 
 namespace Yawn.Test;

@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <!-- Define root build directory, see Richtea.RecommendedPractices -->
+    <RtRootDir>$(MSBuildThisFileDirectory)</RtRootDir>
+    <RtEditorConfigUpgrade>silent</RtEditorConfigUpgrade>
+    <RtStyleCopUpgrade>silent</RtStyleCopUpgrade>
+  </PropertyGroup>
+</Project>
