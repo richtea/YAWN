@@ -8,7 +8,7 @@
     "            NuGet package's version.",
     "  never   - Never modify this file, and don't issue any warnings about",
     "            any discrepancies (use this if you are managing it yourself).",
-    "  warn    - Do not modify any existing stylecop.json file, but create one if it doesn't",
+    "  warn    - Do not modify any existing StyleCop.json file, but create one if it doesn't",
     "            exist. If one exists and is different from the package version, issue a",
     "            build warning. NOTE: this is the default value if the property is not",
     "            specified.",
